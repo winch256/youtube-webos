@@ -14,6 +14,10 @@ on:
         options:
           - manual-build
 
+# Add permission to write releases and contents
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -37,14 +41,12 @@ jobs:
           pnpm run build:dev
           pnpm run package
 
-      # 1. Always upload the build artifact to the workflow summary page
       - name: Upload IPK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: youtube-adfree-ipk
           path: '*.ipk'
 
-      # 2. Automatically create a GitHub release if triggered manually or via tag
       - name: Create GitHub Release / Upload Asset
         uses: softprops/action-gh-release@v2
         with:
