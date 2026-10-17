@@ -1,0 +1,15 @@
+{
+  "packages": [
+    {
+      "id": "youtube.leanback.v4",
+      "version": "0.1.0",
+      "type": "web",
+      "title": "YouTube AdFree (wing)",
+      "appDescription": "Custom YouTube build with standard app ID and adblock.",
+      "iconUri": "hhttps://raw.githubusercontent.com/winch256/youtube-webos/refs/heads/main/assets/icon.png",
+      "sourceUrl": "https://github.com/winch256/youtube-webos",
+      "rootRequired": false,
+      "ipkUrl": "https://github.com/winch256/youtube-webos/releases/download/"
+    }
+  ]
+}
