@@ -5,6 +5,14 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
+    inputs:
+      release_type:
+        description: 'Release type'
+        required: true
+        default: 'manual-build'
+        type: choice
+        options:
+          - manual-build
 
 jobs:
   build:
@@ -29,9 +37,23 @@ jobs:
           pnpm run build:dev
           pnpm run package
 
-      - name: Create GitHub Release
+      # 1. Always upload the build artifact to the workflow summary page
+      - name: Upload IPK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: youtube-adfree-ipk
+          path: '*.ipk'
+
+      # 2. Automatically create a GitHub release if triggered manually or via tag
+      - name: Create GitHub Release / Upload Asset
         uses: softprops/action-gh-release@v2
         with:
           files: "*.ipk"
+          tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'latest-manual' }}
+          name: ${{ github.ref_type == 'tag' && github.ref_name || 'Manual Build (Latest)' }}
+          body: "Automated build of YouTube AdFree for webOS."
+          prerelease: ${{ github.ref_type != 'tag' }}
+          draft: false
+          fail_on_unmatched_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
