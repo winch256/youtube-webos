@@ -21,9 +21,6 @@
         "sourceUrl": "https://github.com/winch256/youtube-webos",
         "rootRequired": false,
         "ipkUrl": "https://github.com/winch256/youtube-webos/releases/download/latest-manual/youtube.leanback.v4.ipk",
-        "ipkHash": {
-          "sha256": "SKIP_VERIFY"
-        }
       }
     }
   ]
