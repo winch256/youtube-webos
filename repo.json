@@ -9,7 +9,7 @@
       "iconUri": "hhttps://raw.githubusercontent.com/winch256/youtube-webos/refs/heads/main/assets/icon.png",
       "sourceUrl": "https://github.com/winch256/youtube-webos",
       "rootRequired": false,
-      "ipkUrl": "https://github.com/winch256/youtube-webos/releases/download/"
+      "ipkUrl": "https://github.com/winch256/youtube-webos/releases/download/v0.1.0/youtube.leanback.v4_0.1.0_all.ipk"
     }
   ]
 }
