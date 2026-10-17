@@ -1,61 +1,30 @@
-name: Build and Release IPK
-
-on:
-  push:
-    tags:
-      - 'v*'
-  workflow_dispatch:
-    inputs:
-      release_type:
-        description: 'Release type'
-        required: true
-        default: 'manual-build'
-        type: choice
-        options:
-          - manual-build
-
-# Add permission to write releases and contents
-permissions:
-  contents: write
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Enable pnpm
-        run: corepack enable
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Build & Package
+- name: Build & Package
         run: |
           pnpm run build:dev
           pnpm run package
+
+      # ADD THIS STEP TO RENAME TO A STATIC FILENAME
+      - name: Rename IPK to Static Name
+        run: |
+          mv *.ipk youtube.leanback.v4.ipk
 
       - name: Upload IPK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: youtube-adfree-ipk
-          path: '*.ipk'
+          path: 'youtube.leanback.v4.ipk' # Update path to match
 
       - name: Create GitHub Release / Upload Asset
         uses: softprops/action-gh-release@v2
         with:
-          files: "*.ipk"
+          files: "youtube.leanback.v4.ipk" # Point to the static filename
           tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'latest-manual' }}
           name: ${{ github.ref_type == 'tag' && github.ref_name || 'Manual Build (Latest)' }}
           body: "Automated build of YouTube AdFree for webOS."
           prerelease: ${{ github.ref_type != 'tag' }}
           draft: false
           fail_on_unmatched_files: true
+          # ADD THIS TO OVERWRITE THE EXISTING MANUAL RELEASE ASSET
+          replace_existing_asset: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
