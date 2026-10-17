@@ -1,36 +1,37 @@
-name: Build webOS IPK
+name: Build and Release IPK
 
 on:
   push:
-    branches: [ main, master ]
+    tags:
+      - 'v*'
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Enable pnpm via Corepack
+      - name: Enable pnpm
         run: corepack enable
 
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build and package IPK
+      - name: Build & Package
         run: |
           pnpm run build:dev
           pnpm run package
 
-      - name: Upload IPK artifact
-        uses: actions/upload-artifact@v4
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: youtube-adfree-ipk
-          path: '*.ipk'
+          files: "*.ipk"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
