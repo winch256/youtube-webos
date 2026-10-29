@@ -9,6 +9,12 @@
   <img src="https://img.shields.io/badge/LG-webOS-000000?logo=webos&logoColor=white&style=flat-square" alt="webOS">
 </p>
 
+---
+## winch256's fork
+
+- This is a fork of the Youtube AdFree on webOS. Instead of using the custom icons from the original repository, this fork changes the Youtube icons back to the original app.
+---
+
 <p align="center">
   YouTube app for webOS TV with ad blocking and other enhancements
 </p>
